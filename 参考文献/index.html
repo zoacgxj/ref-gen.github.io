@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>哈佛参考文献格式生成器</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: 'Noto Sans SC', sans-serif;
+        background-color: #f8fafc;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .tab-active {
+        background-color: #3b82f6;
+        color: white;
+      }
+      .example-text {
+        color: #64748b;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+      }
+      .reference-output {
+        background-color: #f1f5f9;
+        border-left: 4px solid #3b82f6;
+        padding: 1rem;
+        border-radius: 0 8px 8px 0;
+        white-space: pre-wrap;
+      }
+      .transition-all {
+        transition: all 0.3s ease;
+      }
+      .hover-scale:hover {
+        transform: scale(1.02);
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div class="container mx-auto px-4 py-12 max-w-4xl">
+      <div class="text-center mb-12">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
+          哈佛参考文献格式生成器
+        </h1>
+        <p class="text-lg text-gray-600">
+          使用这个我们可以自动生成符合哈佛格式标准的期刊论文和报告参考文献
+        </p>
+      </div>
+
+      <div class="glass-card p-6 mb-8 transition-all hover-scale">
+        <div class="flex border-b border-gray-200 mb-6">
+          <button
+            id="journalTab"
+            class="px-4 py-2 rounded-t-lg tab-active font-medium"
+          >
+            期刊论文
+          </button>
+          <button
+            id="reportTab"
+            class="px-4 py-2 rounded-t-lg font-medium text-gray-600"
+          >
+            报告
+          </button>
+        </div>
+
+        <!-- 期刊论文表单 -->
+        <div id="journalForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >作者姓名</label
+            >
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <input
+                  type="text"
+                  id="authorLastName"
+                  placeholder="姓氏"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+                <p class="example-text">例如: Smith</p>
+              </div>
+              <div>
+                <input
+                  type="text"
+                  id="authorFirstName"
+                  placeholder="名字首字母"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+                <p class="example-text">例如: J.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >出版年份</label
+            >
+            <input
+              type="text"
+              id="publishYear"
+              placeholder="年份"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <p class="example-text">例如: 2008</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >文章标题</label
+            >
+            <input
+              type="text"
+              id="articleTitle"
+              placeholder="文章标题"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <p class="example-text">
+              例如: The Impact of Globalization on Developing Countries
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >期刊名称</label
+            >
+            <input
+              type="text"
+              id="journalName"
+              placeholder="期刊名"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <p class="example-text">
+              例如: Journal of International Business Studies
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >卷号</label
+              >
+              <input
+                type="text"
+                id="volumeNumber"
+                placeholder="卷号"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <p class="example-text">例如: 39</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >期号</label
+              >
+              <input
+                type="text"
+                id="issueNumber"
+                placeholder="期号"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <p class="example-text">例如: 4</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >页码</label
+              >
+              <input
+                type="text"
+                id="pageNumbers"
+                placeholder="页码"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <p class="example-text">例如: 567-589</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 报告表单 -->
+        <div id="reportForm" class="space-y-4 hidden">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >作者</label
+            >
+            <input
+              type="text"
+              id="reportAuthor"
+              placeholder="作者姓名"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <p class="example-text">例如: Smith, J.</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >出版年份</label
+            >
+            <input
+              type="text"
+              id="reportYear"
+              placeholder="年份"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <p class="example-text">例如: 2020</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >报告名称</label
+            >
+            <input
+              type="text"
+              id="reportTitle"
+              placeholder="报告名称"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <p class="example-text">例如: Annual Financial Report</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1"
+              >报告编号 (可选)</label
+            >
+            <input
+              type="text"
+              id="reportNumber"
+              placeholder="报告编号"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >出版地 (可选)</label
+              >
+              <input
+                type="text"
+                id="reportLocation"
+                placeholder="出版地"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <p class="example-text">例如: New York</p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >出版社 (可选)</label
+              >
+              <input
+                type="text"
+                id="reportPublisher"
+                placeholder="出版社"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+              <p class="example-text">例如: Harvard University Press</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex justify-center">
+          <button
+            id="generateBtn"
+            class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
+          >
+            <i class="fas fa-magic mr-2"></i>生成参考文献
+          </button>
+        </div>
+      </div>
+
+      <div
+        id="resultContainer"
+        class="glass-card p-6 hidden transition-all hover-scale"
+      >
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">生成的参考文献</h2>
+        <div id="referenceOutput" class="reference-output font-mono"></div>
+        <div class="mt-4 flex justify-end">
+          <button
+            id="copyBtn"
+            class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-all"
+          >
+            <i class="fas fa-copy mr-2"></i>复制到剪贴板
+          </button>
+        </div>
+      </div>
+
+      <div class="glass-card p-6 mt-8 transition-all hover-scale">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">
+          哈佛参考文献格式规范
+        </h2>
+
+        <div class="mb-6">
+          <h3 class="text-lg font-medium text-gray-700 mb-2">期刊论文格式</h3>
+          <p class="text-gray-600 mb-2">
+            作者姓氏, 作者名字首字母. (出版年). 文章标题. 期刊名, 卷号(期号),
+            页码.
+          </p>
+          <div class="bg-gray-100 p-3 rounded-lg">
+            <p class="text-gray-800 font-mono">
+              Smith, J. (2008). The Impact of Globalization on Developing
+              Countries. Journal of International Business Studies, 39(4),
+              567-589.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-medium text-gray-700 mb-2">报告格式</h3>
+          <p class="text-gray-600 mb-2">
+            作者. (出版年). 报告名称. 报告编号（如有）. 出版地: 出版社（如有）.
+          </p>
+          <div class="bg-gray-100 p-3 rounded-lg">
+            <p class="text-gray-800 font-mono">
+              Johnson, A. (2020). Annual Financial Report. Report No. 123. New
+              York: Harvard University Press.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card p-6 mt-8 transition-all hover-scale">
+        <h2 class="text-xl font-semibold text-gray-800 mb-4">界面设计的参考</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <img
+              src="https://p3-search.byteimg.com/obj/labis/2e9777b1158e7fec55b159c073911eeb"
+              alt="NoteExpress软件界面"
+              class="w-full rounded-lg border border-gray-200"
+            />
+            <p class="text-sm text-gray-500 mt-2">NoteExpress软件界面</p>
+          </div>
+          <div>
+            <img
+              src="https://p3-search.byteimg.com/obj/labis/887bbf43965236a21a33f9dccf8999b1"
+              alt="LevMe参考文献生成器界面"
+              class="w-full rounded-lg border border-gray-200"
+            />
+            <p class="text-sm text-gray-500 mt-2">LevMe参考文献生成器界面</p>
+          </div>
+          <div class="md:col-span-2">
+            <img
+              src="https://p3-search.byteimg.com/obj/labis/6e1b9256b2c2117f658e40dc0c0e4b5f"
+              alt="Edit Preprint编辑界面"
+              class="w-full rounded-lg border border-gray-200"
+            />
+            <p class="text-sm text-gray-500 mt-2">Edit Preprint编辑界面</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="bg-gray-100 py-6 mt-12">
+      <div class="container mx-auto px-4 text-center text-gray-500 text-sm">
+        <p>
+          created by
+          <a
+            href="https://space.coze.cn"
+            class="text-blue-600 hover:text-blue-800"
+            >xuejin</a
+          >
+        </p>
+        <p class="mt-1">测试使用</p>
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // 切换标签页
+        const journalTab = document.getElementById('journalTab')
+        const reportTab = document.getElementById('reportTab')
+        const journalForm = document.getElementById('journalForm')
+        const reportForm = document.getElementById('reportForm')
+
+        journalTab.addEventListener('click', function () {
+          journalTab.classList.add('tab-active')
+          journalTab.classList.remove('text-gray-600')
+          reportTab.classList.remove('tab-active')
+          reportTab.classList.add('text-gray-600')
+          journalForm.classList.remove('hidden')
+          reportForm.classList.add('hidden')
+        })
+
+        reportTab.addEventListener('click', function () {
+          reportTab.classList.add('tab-active')
+          reportTab.classList.remove('text-gray-600')
+          journalTab.classList.remove('tab-active')
+          journalTab.classList.add('text-gray-600')
+          reportForm.classList.remove('hidden')
+          journalForm.classList.add('hidden')
+        })
+
+        // 生成参考文献
+        const generateBtn = document.getElementById('generateBtn')
+        const resultContainer = document.getElementById('resultContainer')
+        const referenceOutput = document.getElementById('referenceOutput')
+        const copyBtn = document.getElementById('copyBtn')
+
+        generateBtn.addEventListener('click', function () {
+          if (journalForm.classList.contains('hidden')) {
+            // 生成报告格式
+            const author = document.getElementById('reportAuthor').value.trim()
+            const year = document.getElementById('reportYear').value.trim()
+            const title = document.getElementById('reportTitle').value.trim()
+            const number = document.getElementById('reportNumber').value.trim()
+            const location = document
+              .getElementById('reportLocation')
+              .value.trim()
+            const publisher = document
+              .getElementById('reportPublisher')
+              .value.trim()
+
+            // 所有字段可选
+            let reference = ''
+            if (author) reference += `${author}. `
+            if (year) reference += `(${year}). `
+            if (title) reference += `${title}`
+            if (number) reference += `. ${number}`
+            if (location && publisher)
+              reference += `. ${location}: ${publisher}`
+            else if (location) reference += `. ${location}`
+            else if (publisher) reference += `. ${publisher}`
+            if (reference && !reference.endsWith('.')) reference += '.'
+
+            referenceOutput.textContent = reference.trim()
+          } else {
+            // 生成期刊论文格式
+            const lastName = document
+              .getElementById('authorLastName')
+              .value.trim()
+            const firstName = document
+              .getElementById('authorFirstName')
+              .value.trim()
+            const year = document.getElementById('publishYear').value.trim()
+            const title = document.getElementById('articleTitle').value.trim()
+            const journal = document.getElementById('journalName').value.trim()
+            const volume = document.getElementById('volumeNumber').value.trim()
+            const issue = document.getElementById('issueNumber').value.trim()
+            const pages = document.getElementById('pageNumbers').value.trim()
+
+            // 所有字段可选
+            let reference = ''
+            if (lastName) reference += `${lastName}`
+            if (firstName)
+              reference += reference ? `, ${firstName}` : `${firstName}`
+            if (year) reference += reference ? `. (${year})` : `(${year})`
+            if (title) reference += reference ? `. ${title}` : `${title}`
+            if (journal) reference += reference ? `. ${journal}` : `${journal}`
+            if (volume && issue)
+              reference += reference
+                ? `, ${volume}(${issue})`
+                : `${volume}(${issue})`
+            else if (volume)
+              reference += reference ? `, ${volume}` : `${volume}`
+            else if (issue)
+              reference += reference ? `, (${issue})` : `(${issue})`
+            if (pages) reference += reference ? `, ${pages}` : `${pages}`
+            if (reference && !reference.endsWith('.')) reference += '.'
+
+            referenceOutput.textContent = reference.trim()
+          }
+
+          resultContainer.classList.remove('hidden')
+        })
+
+        // 这里是复制到剪贴板
+        copyBtn.addEventListener('click', function () {
+          const textToCopy = referenceOutput.textContent
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+              const originalText = copyBtn.innerHTML
+              copyBtn.innerHTML = '<i class="fas fa-check mr-2"></i>已复制'
+              setTimeout(() => {
+                copyBtn.innerHTML = originalText
+              }, 2000)
+            })
+            .catch((err) => {
+              console.error('复制失败: ', err)
+            })
+        })
+      })
+    </script>
+  </body>
+</html>
